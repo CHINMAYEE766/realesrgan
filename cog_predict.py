@@ -49,7 +49,8 @@ class Predictor(BasePredictor):
             )
 
     def choose_model(self, scale, version, tile=0):
-        half = True if torch.cuda.is_available() else False
+        # added apple chip mps supports
+        half = True if torch.mps.is_available() or torch.cuda.is_available() else False
         if version == 'General - RealESRGANplus':
             model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
             model_path = 'weights/RealESRGAN_x4plus.pth'

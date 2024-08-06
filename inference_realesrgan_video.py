@@ -269,7 +269,8 @@ def inference_video(args, video_save_path, device=None, total_workers=1, worker_
         else:
             writer.write_frame(output)
 
-        torch.cuda.synchronize(device)
+        # added apple chip mps supports
+        torch.cuda.synchronize(device) if torch.cuda.is_available() else torch.mps.synchronize()
         pbar.update(1)
 
     reader.close()
@@ -286,7 +287,8 @@ def run(args):
         os.system(f'ffmpeg -i {args.input} -qscale:v 1 -qmin 1 -qmax 1 -vsync 0  {tmp_frames_folder}/frame%08d.png')
         args.input = tmp_frames_folder
 
-    num_gpus = torch.cuda.device_count()
+    # added apple chip mps supports
+    num_gpus = torch.cuda.device_count() if torch.cuda.is_available() else torch.mps.device_count()
     num_process = num_gpus * args.num_process_per_gpu
     if num_process == 1:
         inference_video(args, video_save_path)

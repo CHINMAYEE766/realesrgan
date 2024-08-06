@@ -45,9 +45,11 @@ class RealESRGANer():
         self.half = half
 
         # initialize model
-        if gpu_id:
-            self.device = torch.device(
-                f'cuda:{gpu_id}' if torch.cuda.is_available() else 'cpu') if device is None else device
+        if torch.backends.mps.is_available():
+            # added apple chip mps supports
+            self.device = torch.device('mps') if device is None else device
+        elif gpu_id:
+            self.device = torch.device(f'cuda:{gpu_id}' if torch.cuda.is_available() else 'cpu') if device is None else device
         else:
             self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') if device is None else device
 

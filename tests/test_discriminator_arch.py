@@ -17,3 +17,8 @@ def test_unetdiscriminatorsn():
         net.cuda()
         output = net(img.cuda())
         assert output.shape == (1, 1, 32, 32)
+    # added apple chip mps supports
+    elif torch.mps.is_available():
+        net.mps()
+        output = net(img.mps())
+        assert output.shape == (1, 1, 32, 32)
