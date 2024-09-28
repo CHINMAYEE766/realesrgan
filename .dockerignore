@@ -1,0 +1,8 @@
+outputs/
+weights/
+inputs/
+experiments/
+assets/
+.github/
+.vscode/
+options/

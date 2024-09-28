@@ -113,6 +113,42 @@ Other recommended projects:<br>
 
 ---
 
+### Installation with Docker
+
+*Note*: Only tested with Nvidia graphic card
+- https://docs.docker.com/get-started/get-docker/
+
+1. Clone repo
+
+    ```bash
+    git clone https://github.com/xinntao/Real-ESRGAN.git
+    cd Real-ESRGAN
+    ```
+
+1. Build Dockerfile
+
+    ```bash
+    docker build -f Dockerfile . -t real-esrgan
+    ```
+
+1. Run Real-ESRGAN inside Docker
+
+    *Note:* On Windows change `-v ./inputs:/Real-ESRGAN/inputs -v ./outputs:/Real-ESRGAN/outputs -v ./weights:/Real-ESRGAN/weights` to `-v .\inputs:/Real-ESRGAN/inputs -v .\outputs:/Real-ESRGAN/outputs -v .\weights:/Real-ESRGAN/weights`
+    ```bash
+    docker run -it --gpus all -v ./inputs:/Real-ESRGAN/inputs -v ./outputs:/Real-ESRGAN/outputs -v ./weights:/Real-ESRGAN/weights --rm real-esrgan inference_realesrgan.py --help
+    ```
+    ### Example
+    Inference a image
+    ```bash
+    docker run -it --gpus all -v ./inputs:/Real-ESRGAN/inputs -v ./outputs:/Real-ESRGAN/outputs -v ./weights:/Real-ESRGAN/weights --rm real-esrgan inference_realesrgan.py -i inputs/ADE_val_00000114.jpg -o outputs/ --ext png -n realesr-general-x4v3
+    ```
+    Inference a video
+    ```bash
+    docker run -it --gpus all -v ./inputs:/Real-ESRGAN/inputs -v ./outputs:/Real-ESRGAN/outputs -v ./weights:/Real-ESRGAN/weights --rm real-esrgan inference_realesrgan_video.py -i inputs/video/onepiece_demo.mp4 -o outputs/ -n realesr-animevideov3
+    ```
+
+---
+
 ## ⚡ Quick Inference
 
 There are usually three ways to inference Real-ESRGAN.
