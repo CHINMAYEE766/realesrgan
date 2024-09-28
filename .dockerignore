@@ -1,2 +1,8 @@
-# Make sure user won't build real-esrgan image with the output folder
 outputs/
+weights/
+inputs/
+experiments/
+assets/
+.github/
+.vscode/
+options/
