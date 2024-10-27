@@ -7,6 +7,24 @@ import os
 import shutil
 import subprocess
 import torch
+
+import sys
+import types
+
+try:
+    # Check if `torchvision.transforms.functional_tensor` and `rgb_to_grayscale` are missing
+    from torchvision.transforms.functional_tensor import rgb_to_grayscale
+except ImportError:
+    # Import `rgb_to_grayscale` from `functional` if it’s missing in `functional_tensor`
+    from torchvision.transforms.functional import rgb_to_grayscale
+
+    # Create a module for `torchvision.transforms.functional_tensor`
+    functional_tensor = types.ModuleType("torchvision.transforms.functional_tensor")
+    functional_tensor.rgb_to_grayscale = rgb_to_grayscale
+
+    # Add this module to `sys.modules` so other imports can access it
+    sys.modules["torchvision.transforms.functional_tensor"] = functional_tensor
+    
 from basicsr.archs.rrdbnet_arch import RRDBNet
 from basicsr.utils.download_util import load_file_from_url
 from os import path as osp
