@@ -137,6 +137,11 @@ def main():
           continue
 
         img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
+
+        if img.shape[0] > 384 or img.shape[1] > 384:
+          print(f"Skipping image {path}: exceeds size limit")
+          continue
+
         if len(img.shape) == 3 and img.shape[2] == 4:
             img_mode = 'RGBA'
         else:
